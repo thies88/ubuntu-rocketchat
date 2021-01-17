@@ -1,0 +1,38 @@
+#!/usr/bin/with-contenv bash
+
+#if exists
+if [ ! -f /config/mongodb/mongod.conf ]; then
+echo "mongod.conf not found in config folder.. copying it from /etc..."
+mkdir -p /config/mongodb
+mkdir -p /config/log/mongodb
+cp -R /etc/mongod.conf /config/mongodb
+#sleep 1
+
+# start mongo
+#s6-setuidgid abc mongod -f /config/mongodb/mongod.conf
+
+#init mongo replication: rs01
+#s6-setuidgid abc mongo --eval "printjson(rs.initiate())"
+
+# Wait 5 sec
+#sleep 5
+
+#stop mongo
+#s6-setuidgid abc mongo --eval "db.getSiblingDB('admin').shutdownServer()"
+
+else
+echo "mongod.conf exists.."
+fi
+
+echo "#########################"
+echo "Check /config or bind folder on host for log files."
+echo "#########################"
+
+
+# fix permissions
+chown -R abc:abc \
+	/config \
+	/var/lib/mongodb
+
+# clean temp folder
+#rm -rf /temp

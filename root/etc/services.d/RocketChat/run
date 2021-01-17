@@ -1,0 +1,23 @@
+#!/usr/bin/with-contenv bash
+
+# Use s6 or not. To use add: s6-setuidgid leave black to not use
+USE_S6=s6-setuidgid
+
+# wait 10 sec
+sleep 10
+
+if [ ! -f /config/mongodb/setupcomplete.chk ]; then
+mongo --eval "printjson(rs.initiate())"
+sleep 5
+touch /config/mongodb/setupcomplete.chk
+fi
+
+# 1 or 0 to use or not
+#APP_DEBUGMODE=0
+
+# cd /storage
+if [ "${APP_DEBUGMODE}" -eq 1 ]; then
+  exec $USE_S6 $APP_PATH abc ${APP2} >> ${LOG1}
+else
+  exec $USE_S6 $APP_PATH abc ${APP2}
+fi

@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+
+# Use s6 or not. To use add: s6-setuidgid leave black to not use
+USE_S6=s6-setuidgid
+
+# 1 or 0 to use or not
+#APP_DEBUGMODE=0
+
+#cd /storage
+if [ "${APP_DEBUGMODE}" -eq 1 ]; then
+  exec $USE_S6 $APP_PATH abc ${APP1} >> ${LOG1}
+else
+  exec $USE_S6 $APP_PATH abc ${APP1}
+fi
