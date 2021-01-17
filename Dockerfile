@@ -45,15 +45,15 @@ RUN \
  tar -xzf /tmp/rocket.chat.tgz -C /tmp && \
  cd /tmp/bundle/programs/server && npm install && npm update && \
  mv /tmp/bundle /app/Rocket.Chat && \
- #cd /app/Rocket.Chat/programs/server && npm update && \
+ cd /app/Rocket.Chat/programs/server && npm update && \
 echo "Config mongo" && \
-sed -i "s/^#  engine:/  engine: mmapv1/"  /etc/mongod.conf && \
+sed -i "s/^#  engine:/  engine: wiredTiger/"  /etc/mongod.conf && \
 sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf && \
 sed -i "s/dbPath: \/var\/lib\/mongodb/dbPath: \/config\/mongodb/g" /etc/mongod.conf && \
 sed -i "s/path: \/var\/log\/mongodb\/mongod.log/path: \/config\/log\/mongodb\/mongod.log/g" /etc/mongod.conf && \
 echo "**** cleanup ****" && \
 apt-get autoremove -y --purge build-essential curl g++ make && \
-#apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
+apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
 npm cache clean --force && \
 apt-get clean && \
  rm -rf \
