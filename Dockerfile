@@ -45,7 +45,7 @@ RUN \
  tar -xzf /tmp/rocket.chat.tgz -C /tmp && \
  cd /tmp/bundle/programs/server && npm install && npm update && \
  mv /tmp/bundle /app/Rocket.Chat && \
- cd /app/Rocket.Chat/programs/server && npm update && \
+ #cd /app/Rocket.Chat/programs/server && npm update && \
 echo "Config mongo" && \
 sed -i "s/^#  engine:/  engine: mmapv1/"  /etc/mongod.conf && \
 sed -i "s/^#replication:/replication:\n  replSetName: rs01/" /etc/mongod.conf && \
